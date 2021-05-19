@@ -22,19 +22,19 @@ public class AppPage extends FrameworkUtilities implements InitCommonMethods {
 	private final By label_News = By.xpath("//h1[contains(text(),'News')]");
 	
 	
-	
+	String url = commonMethods.readExcelData("TestExcel", "URL");
 	
 	
 	public void launchAndVerifyBlog()
 	{
 		try
 		{
-			commonMethods.launchApplication("https://www.mindtree.com");
+			commonMethods.launchApplication(url);
 			logger.log(Status.INFO, "Launched Mindtree application");
-			if(new WebDriverWait(driver, 25).until(ExpectedConditions.presenceOfElementLocated(link_Blog))!=null)
+			if(new WebDriverWait(commonMethods.driver, 25).until(ExpectedConditions.presenceOfElementLocated(link_Blog))!=null)
 			{
 				commonMethods.clickElement(link_Blog);
-				if(new WebDriverWait(driver, 25).until(ExpectedConditions.presenceOfElementLocated(label_BlogText))!=null)
+				if(new WebDriverWait(commonMethods.driver, 25).until(ExpectedConditions.presenceOfElementLocated(label_BlogText))!=null)
 				{
 					logger.log(Status.PASS, "Succesfully verified Blog label text");
 				}
@@ -52,10 +52,10 @@ public class AppPage extends FrameworkUtilities implements InitCommonMethods {
 		{
 			commonMethods.launchApplication("https://www.mindtree.com");
 			logger.log(Status.INFO, "Launched Mindtree application");
-			if(new WebDriverWait(driver, 25).until(ExpectedConditions.presenceOfElementLocated(link_News))!=null)
+			if(new WebDriverWait(commonMethods.driver, 25).until(ExpectedConditions.presenceOfElementLocated(link_News))!=null)
 			{
 				commonMethods.clickElement(link_News);
-				if(new WebDriverWait(driver, 25).until(ExpectedConditions.presenceOfElementLocated(label_News))!=null)
+				if(new WebDriverWait(commonMethods.driver, 25).until(ExpectedConditions.presenceOfElementLocated(label_News))!=null)
 				{
 					logger.log(Status.PASS, "Succesfully verified News label text");
 				}

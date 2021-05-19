@@ -20,13 +20,13 @@ public class MobileTestMainClass extends FrameworkUtilities implements InitCommo
 		
 	}
 	
-	@Test(priority=1)
+	/*@Test(priority=1)
 	public void runTest2()
 	{
 		//callBowser();
 		setDesciption("Navigate Mindtree Application And verify News");
 		app.launchAndVerifyNews();
 		
-	}
+	}*/
 
 }

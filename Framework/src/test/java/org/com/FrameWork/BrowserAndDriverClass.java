@@ -14,6 +14,7 @@ import java.util.Properties;
 import org.com.ObjectMainMobile.MobileTestMainClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.TestNG;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -24,90 +25,27 @@ import org.testng.annotations.BeforeTest;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.mongodb.diagnostics.logging.Logger;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
+import org.testng.Reporter;
 
-public class BrowserAndDriverClass implements InitCommonMethods {
+public class BrowserAndDriverClass extends FrameworkUtilities {
 	
 	
 	public static WebDriver driver;
 	
-	String browserName;
-	
-	static String environmentName;
-	
-	public static String applicationName;
-	
-	Properties properties;
-	
-	BufferedReader reader;
+
 	
 	
-	public void readProperty()
-	{	
-		 try {
-		 reader = new BufferedReader(new FileReader(System.getProperty("user.dir")+"\\src\\test\\java\\Configuration.properties"));
-		 properties = new Properties();
-		 properties.load(reader);
-		 }
-		 catch (Exception e) {
-			 System.out.println(e.getMessage());
-		}
-	}
 	
-	public String getBrowserName()
-	{
-		try
-		{
-			readProperty();
-			browserName = properties.getProperty("Browser");
-			if(browserName != null)
-			{
-				return browserName;
-			}
-		}
-		 catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-		return browserName;
-	}
-	
-	public String getEnvironmentName()
-	{
-		try
-		{
-			readProperty();
-			environmentName = properties.getProperty("Environment");
-			if(environmentName != null)
-			{
-				return environmentName;
-			}
-		}
-		 catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-		return environmentName;
-	}
-	
-	public String getApplicationName()
-	{
-		try
-		{
-			readProperty();
-			applicationName = properties.getProperty("ApplicationName").trim();
-			if(applicationName != null)
-			{
-				return applicationName;
-			}
-		}
-		 catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-		return applicationName;
-	}
 	
 	/*public WebDriver callBowser()
 	{
@@ -129,15 +67,25 @@ public class BrowserAndDriverClass implements InitCommonMethods {
 			if(browserName.equalsIgnoreCase("chrome"))
 			{
 				System.setProperty("webdriver.chrome.driver","C:\\Users\\admin\\Downloads\\FrameWork - Selenium\\chromedriver_win32\\chromedriver.exe");
+				WebDriverManager.chromedriver().setup();
 				driver = new ChromeDriver();
 				driver.manage().window().maximize();
 				return driver;
 			}
-				
+			else if(browserName.equalsIgnoreCase("Firefox"))
+			{
+				WebDriverManager.firefoxdriver().setup();
+				driver = new FirefoxDriver();
+				driver.manage().window().maximize();
+				return driver;
+			}	
 		}
 		catch (Exception e) 
 		{
-			System.out.println(e.getMessage());
+			if(browserName==null || browserName.contains("") || !(browserName.length()>1))
+			{
+				logger.fail("Please provide Valid Browser");
+			}
 		}
 		return driver;
 	}
