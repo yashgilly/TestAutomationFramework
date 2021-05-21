@@ -30,6 +30,7 @@ public class AppPage extends FrameworkUtilities implements InitCommonMethods {
 		try
 		{
 			commonMethods.launchApplication(url);
+			
 			logger.log(Status.INFO, "Launched Mindtree application");
 			if(new WebDriverWait(commonMethods.driver, 25).until(ExpectedConditions.presenceOfElementLocated(link_Blog))!=null)
 			{

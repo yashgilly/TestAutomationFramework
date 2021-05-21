@@ -9,6 +9,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.xml.crypto.dsig.spec.XSLTTransformParameterSpec;
@@ -152,5 +159,35 @@ public class CommonMethods extends BrowserAndDriverClass {
 			Reporter.log(e.getMessage());
 		}
 		return excelValue;
+	}
+	
+	public List<String> getDbDataForColumn(String driverName,String server,String userName,String Password,String query,String columnName) throws SQLException
+	{
+		List<String> getColumnData = null;
+		Connection conn = null;
+		Statement ps = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			try {
+			Class.forName(driverName);
+			conn = DriverManager.getConnection(server, userName, Password);
+			}catch (ClassNotFoundException ex) {
+				System.out.println(ex.getMessage());
+			}
+			ps = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			rs = ps.executeQuery(query);
+			while(rs.next())
+			{
+				getColumnData.add(rs.getString(columnName));
+			}
+			return getColumnData;
+		}
+		finally {
+			ps.close();
+			conn.close();
+			
+		}
 	}
 }
