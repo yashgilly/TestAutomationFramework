@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.xml.crypto.dsig.spec.XSLTTransformParameterSpec;
@@ -125,6 +126,23 @@ public class CommonMethods extends BrowserAndDriverClass {
 		{
 		Select select = new Select(driver.findElement(element));
 		select.selectByIndex(indexValue);
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void windowSwitch()
+	{
+		try
+		{
+			String windowBefore = driver.getWindowHandle();
+			Set<String> totalWindows = driver.getWindowHandles();
+			for(String window : totalWindows)
+			{
+				driver.switchTo().window(window);
+			}
+			driver.manage().window().maximize();
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());

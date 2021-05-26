@@ -79,13 +79,17 @@ public class BrowserAndDriverClass extends FrameworkUtilities {
 				driver.manage().window().maximize();
 				return driver;
 			}	
+			else
+			{
+				if(browserName==null || browserName.contains("") || !(browserName.length()>1))
+				{
+					logger.fail("Please provide Valid Browser");
+				}
+			}
 		}
 		catch (Exception e) 
 		{
-			if(browserName==null || browserName.contains("") || !(browserName.length()>1))
-			{
-				logger.fail("Please provide Valid Browser");
-			}
+			System.out.println(e.getMessage());
 		}
 		return driver;
 	}
